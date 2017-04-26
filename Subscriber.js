@@ -5,7 +5,7 @@ class Subscriber extends Document {
     super();
 
     this.email = String;
-    this.date = Date
+    this.date = Date;
   }
 
   static collectionName() {

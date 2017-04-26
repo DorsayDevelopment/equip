@@ -3,11 +3,11 @@ const
   app = new Koa(),
   Router = require('koa-router'),
   bodyParser = require('koa-bodyparser'),
-  serve = require('koa-static'),
   dbConnect = require('camo').connect,
   Subscriber = require('./Subscriber');
 
-const dbUri = 'mongodb://localhost:27017/equip';
+const dbUri = process.env.DB_CONNECTION || 'mongodb://localhost:27017/equip';
+const port = process.env.PORT || 9000;
 
 var db;
 dbConnect(dbUri).then(connected => {
@@ -15,7 +15,6 @@ dbConnect(dbUri).then(connected => {
 });
 
 app.use(bodyParser());
-app.use(serve(__dirname + '/public'))
 
 app.use(async (ctx, next) => {
   const start = new Date();
@@ -60,13 +59,6 @@ router.delete('/subscribers', async ctx => {
   await Subscriber.deleteMany({});
   ctx.status = 200;
 });
-
-router.get('/', async ctx => {
-  await send(ctx, ctx.path, {
-    root: __dirname + '/public'
-  });
-});
-
 
 app.use(router.middleware());
 
