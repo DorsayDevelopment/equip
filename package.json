@@ -1,0 +1,28 @@
+{
+  "name": "equip",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DorsayDevelopment/equip.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DorsayDevelopment/equip/issues"
+  },
+  "homepage": "https://github.com/DorsayDevelopment/equip#readme",
+  "dependencies": {
+    "camo": "^0.12.3",
+    "koa": "^2.2.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-router": "^7.1.1",
+    "koa-send": "^4.0.0",
+    "koa-static": "^3.0.0",
+    "mongodb": "^2.2.26"
+  }
+}
