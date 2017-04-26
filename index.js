@@ -4,7 +4,8 @@ const
   Router = require('koa-router'),
   bodyParser = require('koa-bodyparser'),
   dbConnect = require('camo').connect,
-  Subscriber = require('./Subscriber');
+  Subscriber = require('./Subscriber'),
+  cors = require('koa-cors');
 
 const dbUri = process.env.DB_CONNECTION || 'mongodb://localhost:27017/equip';
 const port = process.env.PORT || 9000;
@@ -15,6 +16,7 @@ dbConnect(dbUri).then(connected => {
 });
 
 app.use(bodyParser());
+app.use(cors());
 
 app.use(async (ctx, next) => {
   const start = new Date();
@@ -35,7 +37,7 @@ const router = new Router();
 router.post('/subscribers', async ctx => {
   const email = ctx.request.body.email;
   let exists = await Subscriber.count({email});
-  if(exists) {
+  if(exists > 0) {
     ctx.status = 409;
     return;
   }
