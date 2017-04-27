@@ -57,6 +57,11 @@ router.get('/subscribers/count', async ctx => {
   ctx.body = await Subscriber.count({});
 });
 
+router.get('/subscribers/email', async ctx => {
+  let subscribers = await Subscriber.find({}, { populate: ['email'] });
+  ctx.body = subscribers.map(s => s.email);
+});
+
 router.delete('/subscribers', async ctx => {
   await Subscriber.deleteMany({});
   ctx.status = 200;
