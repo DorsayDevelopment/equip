@@ -10,7 +10,7 @@ const
 
 const dbUri = process.env.DB_CONNECTION || 'mongodb://localhost:27017/equip';
 const port = process.env.PORT || 9000;
-const UUID = uuid();
+var UUID = uuid();
 
 var db;
 dbConnect(dbUri).then(connected => {
@@ -75,7 +75,12 @@ router.delete('/subscribers', async ctx => {
   }
 });
 
-router.get('/guid', async ctx => {
+router.get('/guid', ctx => {
+  ctx.body = UUID;
+});
+
+router.post('/guid', ctx => {
+  UUID = uuid();
   ctx.body = UUID;
 });
 
