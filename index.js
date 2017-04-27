@@ -5,10 +5,12 @@ const
   bodyParser = require('koa-bodyparser'),
   dbConnect = require('camo').connect,
   Subscriber = require('./Subscriber'),
-  cors = require('koa-cors');
+  cors = require('koa-cors'),
+  uuid = require('uuid/v4');
 
 const dbUri = process.env.DB_CONNECTION || 'mongodb://localhost:27017/equip';
 const port = process.env.PORT || 9000;
+const UUID = uuid();
 
 var db;
 dbConnect(dbUri).then(connected => {
@@ -63,8 +65,18 @@ router.get('/subscribers/email', async ctx => {
 });
 
 router.delete('/subscribers', async ctx => {
-  await Subscriber.deleteMany({});
-  ctx.status = 200;
+  let authToken = ctx.request.headers['token'];
+  if(!authToken || authToken != UUID) {
+    ctx.body = 'nope';
+    return;
+  } else {
+    await Subscriber.deleteMany({});
+    ctx.status = 200;
+  }
+});
+
+router.get('/guid', async ctx => {
+  ctx.body = UUID;
 });
 
 app.use(router.middleware());
