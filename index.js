@@ -38,7 +38,7 @@ router.post('/subscribers', async ctx => {
   const email = ctx.request.body.email;
   let exists = await Subscriber.count({email});
   if(exists > 0) {
-    ctx.status = 409;
+    ctx.status = 201;
     return;
   }
   let subscriber = Subscriber.create({
