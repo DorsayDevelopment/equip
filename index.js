@@ -52,7 +52,13 @@ router.post('/subscribers', async ctx => {
 });
 
 router.get('/subscribers', async ctx => {
-  ctx.body = await Subscriber.find({});
+  let authToken = ctx.request.headers['token'];
+  if(!authToken || authToken != UUID) {
+    ctx.body = 'nope';
+    return;
+  } else {
+    ctx.body = await Subscriber.find({});
+  }
 });
 
 router.get('/subscribers/count', async ctx => {
@@ -60,8 +66,15 @@ router.get('/subscribers/count', async ctx => {
 });
 
 router.get('/subscribers/email', async ctx => {
-  let subscribers = await Subscriber.find({}, { populate: ['email'] });
-  ctx.body = subscribers.map(s => s.email);
+  let authToken = ctx.request.headers['token'];
+  if(!authToken || authToken != UUID) {
+    ctx.body = 'nope';
+    return;
+  } else {
+    let subscribers = await Subscriber.find({}, { populate: ['email'] });
+    ctx.body = subscribers.map(s => s.email);
+  }
+  
 });
 
 router.delete('/subscribers', async ctx => {
